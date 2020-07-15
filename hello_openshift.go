@@ -5,8 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"log"
-	"time"
+
 )
 
 func helloHandler(w http.ResponseWriter, r *http.Request) {
