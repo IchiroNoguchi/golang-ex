@@ -10,21 +10,37 @@ import (
 )
 
 func helloHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := template.ParseFiles("template_index.html")
-	if err != nil {
-		log.Fatalf("template error: %v", err)
+	response := os.Getenv("RESPONSE")
+	if len(response) == 0 {
+		response = "Hello OpenShift!"
 	}
-	if err := t.Execute(w, struct {
-		Title   string
-		Message string
-		Time    time.Time
-	}{
-		Title:   "テストページ",
-		Message: "こんにちは！",
-		Time:    time.Now(),
-	}); err != nil {
-		log.Printf("failed to execute template: %v", err)
-	}
+
+	fmt.Fprintln(w, response)
+	s :=  `
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script> 
+$(document).ready(function(){
+
+    $("div").animate({left: '0px'});
+});
+</script> 
+</head>
+<body>
+
+
+
+<div style="height:100px;width:100px;position:absolute;left: 2000px;">
+<img width="100px" src="https://cdn.worldvectorlogo.com/logos/gopher.svg">
+</div>
+
+</body>
+</html>
+
+	` 
+	fmt.Println(s)
 }
 
 func listenAndServe(port string) {
