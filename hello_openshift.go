@@ -8,12 +8,6 @@ import (
 )
 
 func helloHandler(w http.ResponseWriter, r *http.Request) {
-	response := os.Getenv("RESPONSE")
-	if len(response) == 0 {
-		response = "Hello OpenShift!"
-	}
-
-	fmt.Fprintln(w, response)
 	s :=  `
 <!DOCTYPE html>
 <html>
@@ -38,7 +32,14 @@ $(document).ready(function(){
 </html>
 
 	` 
-	fmt.Println(s)
+	response := os.Getenv("RESPONSE")
+	if len(response) == 0 {
+		response =  s
+	}
+
+	fmt.Fprintln(w, response)
+
+	fmt.Println(response)
 }
 
 func listenAndServe(port string) {
