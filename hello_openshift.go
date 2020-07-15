@@ -1,19 +1,28 @@
 package main
 
 import (
+	"html/template"
 	"fmt"
 	"net/http"
 	"os"
 )
 
 func helloHandler(w http.ResponseWriter, r *http.Request) {
-	response := os.Getenv("RESPONSE")
-	if len(response) == 0 {
-		response = "Hello OpenShift!"
+	t, err := template.ParseFiles("template/index.html")
+	if err != nil {
+		log.Fatalf("template error: %v", err)
 	}
-
-	fmt.Fprintln(w, response)
-	fmt.Println("Servicing request.")
+	if err := t.Execute(w, struct {
+		Title   string
+		Message string
+		Time    time.Time
+	}{
+		Title:   "テストページ",
+		Message: "こんにちは！",
+		Time:    time.Now(),
+	}); err != nil {
+		log.Printf("failed to execute template: %v", err)
+	}
 }
 
 func listenAndServe(port string) {
