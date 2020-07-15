@@ -16,7 +16,7 @@ func helloHandler(w http.ResponseWriter, r *http.Request) {
 <script> 
 $(document).ready(function(){
 
-    $("div").animate({left: '0px'});
+    $("div").animate({left: '0px'}, 5000, 'swing');
 });
 </script> 
 </head>
