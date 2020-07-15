@@ -8,7 +8,7 @@ import (
 )
 
 func helloHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := template.ParseFiles("template/index.html")
+	t, err := template.ParseFiles("template_index.html")
 	if err != nil {
 		log.Fatalf("template error: %v", err)
 	}
